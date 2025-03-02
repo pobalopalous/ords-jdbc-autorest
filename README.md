@@ -17,11 +17,17 @@ ORDS provides these capabilities with built-in pagination, filtering, and securi
 
 ### Advantages of ORDS AutoREST
 ✔ Zero-code API – No need to write PL/SQL or Java.
+
 ✔ CRUD-ready – Supports full Create, Read, Update, Delete.
+
 ✔ Built-in security – Can integrate with OAuth, JWT, or DB authentication.
+
 ✔ Scalable – Works efficiently with Oracle Database performance features.
+
 ✔ Metadata-driven – Automatically updates when the schema changes.
 
-
-However, it does require ORDS to be installed to the target database and currently only works with the Oracle database.
+### Limitations of ORDS AutoREST
+The AutoREST feature does require ORDS to be installed to the target database and currently only works with the Oracle database. 
 ![ORDS AutoREST only works with Oracle database and it must be installed in that target database](images/ords-autorest-requires-db-installation.png)
+
+ORDS is an extensible product though. The code in this repository creates a plugin jar which provides a standards based mechanism to achieve that RESTful interface to the tables and views in the top 5 relational databases using vendor specific JDBC drivers.
