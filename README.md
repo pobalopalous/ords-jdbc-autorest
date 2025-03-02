@@ -31,3 +31,29 @@ The AutoREST feature does require ORDS to be installed to the target database an
 ![ORDS AutoREST only works with Oracle database and it must be installed in that target database](images/ords-autorest-requires-db-installation.png)
 
 ORDS is an extensible product though. The code in this repository creates a plugin jar which provides a standards based mechanism to achieve that RESTful interface to the tables and views in the top 5 relational databases using vendor specific JDBC drivers.
+
+# Setup ORDS plugin jars
+To build this plugin from source there are a number of dependencies to resolve. These dependencies are listed in the pom.xml. However, two ORDS plugin dependencies are mentioned which are not available in a public maven repository yet. See https://peterobrien.blog/2023/03/28/crafting-your-ords-plugin-the-maven-way/ for further details on this.
+
+First, you’ll need to install the two ORDS jars into your local Maven repository. To install the jars, you’ll need to use the command line. Navigate to the directory where the ORDS was extracted to, and then run the following two commands:
+
+```
+mvn install:install-file \
+  -DgroupId=oracle.dbtools.ords \
+  -DartifactId=ords-plugin-api \
+  -Dversion=24.4.0 \
+  -Dpackaging=jar \
+  -Dfile=examples/plugins/lib/ords-plugin-api-24.4.0.345.1601.jar  \
+  -DgeneratePom=true  
+```
+
+```
+mvn install:install-file \
+  -DgroupId=oracle.dbtools.ords \
+  -DartifactId=ords-plugin-apt \
+  -Dversion=24.4.0 \
+  -Dpackaging=jar \
+  -Dfile=examples/plugins/lib/ords-plugin-apt-24.4.0.345.1601.jar  \
+  -DgeneratePom=true
+```
+That will put two artefacts in your local maven repository both as version 24.4.0. That is the version of ORDS that this pom.xml refers to but you can change the version number to be reflect the version of ORDS you are using.
