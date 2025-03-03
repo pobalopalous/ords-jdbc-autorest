@@ -57,3 +57,21 @@ mvn install:install-file \
   -DgeneratePom=true
 ```
 That will put two artefacts in your local maven repository both as version 24.4.0. That is the version of ORDS that this pom.xml refers to but you can change the version number to be reflect the version of ORDS you are using.
+
+If you do not define these artifacts in your repository you will get this build error:
+```
+[ERROR] Failed to execute goal on project ords-jdbc-autorest: Could not resolve dependencies for project blog.peterobrien:ords-jdbc-autorest:jar:1.0
+[ERROR] dependency: oracle.dbtools.ords:ords-plugin-api:jar:24.4.0 (compile)
+[ERROR] 	Could not find artifact oracle.dbtools.ords:ords-plugin-api:jar:24.4.0 in central (https://repo.maven.apache.org/maven2)
+[ERROR] dependency: oracle.dbtools.ords:ords-plugin-apt:jar:24.4.0 (compile)
+[ERROR] 	Could not find artifact oracle.dbtools.ords:ords-plugin-apt:jar:24.4.0 in central (https://repo.maven.apache.org/maven2)
+[ERROR] 
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/DependencyResolutionException
+```
+
