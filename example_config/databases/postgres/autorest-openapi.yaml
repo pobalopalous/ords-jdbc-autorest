@@ -1,0 +1,79 @@
+openapi: 3.0.3
+info:
+  title: AutoREST Postgres
+  description: |-
+    This is a set of services for working with database objects in Postgres.
+  version: 0.0.1
+externalDocs:
+  description: Find out more about Oracle REST Data Services
+  url: https://oracle.com/rest
+paths:
+  /employees/:
+    x-autorest:
+      identifier: staff
+      type: table
+    get:
+      summary: Get Employees
+      description: Retrieve the records from the Staff table in the sakila database.
+      operationId: getEmployees
+      parameters:
+        - in: query
+          name: offset
+          schema:
+            type: integer
+          description: The number of items to skip before starting to collect the result set
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: The numbers of items to return        
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid status value
+  /employees/{staff_id}:
+    x-autorest:
+      identifier: staff
+      type: table
+    parameters:
+      - in: path
+        name: staff_id
+        required: true
+        schema:
+          type: integer
+        description: The identifier of the Staff record
+    get:
+      summary: Get Employee
+      description: Retrieve the record, identified by staff_id, from the Staff table in the sakila database.
+      operationId: getEmployee
+      responses:
+        '200':
+          description: successful operation
+        '404':
+          description: Not Found
+
+components:
+  schemas:
+    Actor:
+      type: object
+      properties:
+        actor_id:
+          type: integer
+          format: int64
+          example: 10
+        first_name:
+          type: string
+          description: First Name
+          example: MAX
+        last_name:
+          type: string
+          description: Last Name
+          example: POWER
+    Actors:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Actor'

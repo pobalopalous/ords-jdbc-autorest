@@ -1,0 +1,56 @@
+openapi: 3.0.3
+info:
+  title: AutoREST DB/2
+  description: |-
+    This is a set of services for working with database objects in DB/2.
+  version: 0.0.1
+externalDocs:
+  description: Find out more about Oracle REST Data Services
+  url: https://oracle.com/rest
+paths:
+  /inventory/:
+    x-autorest:
+      owner: DB2INST1
+      identifier: INVENTORY
+      type: table
+    get:
+      summary: Get Staff
+      description: Retrieve the records from the Inventory table in the SAMPLE database.
+      operationId: getStaff
+      parameters:
+        - in: query
+          name: offset
+          schema:
+            type: integer
+          description: The number of items to skip before starting to collect the result set
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: The numbers of items to return        
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid status value
+components:
+  schemas:
+    Inventory:
+      type: object
+      properties:
+        pid:
+          type: string
+          example: 100-100-01
+        quantity:
+          type: integer
+          example: 20
+        location:
+          type: string
+          example: Warehouse
+    Actors:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Actor'

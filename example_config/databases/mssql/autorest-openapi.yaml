@@ -1,0 +1,81 @@
+openapi: 3.0.3
+info:
+  title: AutoREST MS SQL Server
+  description: |-
+    This is a set of services for working with database objects in MS SQL Server.
+  version: 0.0.1
+externalDocs:
+  description: Find out more about Oracle REST Data Services
+  url: https://oracle.com/rest
+paths:
+  /persons/:
+    x-autorest:
+      owner: Person
+      identifier: Person
+      type: table
+    get:
+      summary: Get Persons
+      description: Retrieve the records from the Persons table in the AdventureWorks database.
+      operationId: getPersons
+      parameters:
+        - in: query
+          name: offset
+          schema:
+            type: integer
+          description: The number of items to skip before starting to collect the result set
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: The numbers of items to return        
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid status value
+  /persons/{BusinessEntityID}:
+    x-autorest:
+      owner: Person
+      identifier: Person
+      type: table
+    parameters:
+      - in: path
+        name: BusinessEntityID
+        required: true
+        schema:
+          type: string
+        description: The identifier of the Person record
+    get:
+      summary: Get Person
+      description: Retrieve the specified record from the Person table in the AdventureWorks database.
+      operationId: getPerson
+      responses:
+        '200':
+          description: successful operation
+        '404':
+          description: Record not found
+
+components:
+  schemas:
+    Actor:
+      type: object
+      properties:
+        actor_id:
+          type: integer
+          format: int64
+          example: 10
+        first_name:
+          type: string
+          description: First Name
+          example: MAX
+        last_name:
+          type: string
+          description: Last Name
+          example: POWER
+    Actors:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Actor'

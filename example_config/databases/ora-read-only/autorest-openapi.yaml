@@ -1,0 +1,81 @@
+openapi: 3.0.3
+info:
+  title: AutoREST Oracle Read Only
+  description: |-
+    This is a set of services for working with database objects in an Oracle DB without ORDS installed to it.
+  version: 0.0.1
+externalDocs:
+  description: Find out more about Oracle REST Data Services
+  url: https://oracle.com/rest
+paths:
+  /employees/:
+    x-autorest:
+      owner: HR
+      identifier: EMPLOYEES
+      type: table
+    get:
+      summary: Get Employees
+      description: Retrieve the records from the Employees table in the Oracle database.
+      operationId: getEmployees
+      parameters:
+        - in: query
+          name: offset
+          schema:
+            type: integer
+          description: The number of items to skip before starting to collect the result set
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: The numbers of items to return        
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid status value
+  /employees/{EMPLOYEE_ID}:
+    x-autorest:
+      owner: HR
+      identifier: EMPLOYEES
+      type: table
+    parameters:
+      - in: path
+        name: EMPLOYEE_ID
+        required: true
+        schema:
+          type: integer
+        description: The identifier of the Employee record
+    get:
+      summary: Get Employee
+      description: Retrieve the record, identified by EMPLOYEE_ID, from the Employee table in the Oracle database.
+      operationId: getEmployee
+      responses:
+        '200':
+          description: successful operation
+        '404':
+          description: Not Found
+
+components:
+  schemas:
+    Employee:
+      type: object
+      properties:
+        EMPLOYEE_ID:
+          type: integer
+          format: int64
+          example: 10
+        first_name:
+          type: string
+          description: First Name
+          example: MAX
+        last_name:
+          type: string
+          description: Last Name
+          example: POWER
+    Employees:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Employee'

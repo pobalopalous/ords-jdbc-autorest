@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Saved on Wed Jan 08 23:03:36 UTC 2025</comment>
+<entry key="autorest.api.doc.file">/Users/peobrie/work/config/autojdbc/databases/ora-read-only/autorest-openapi.yaml</entry>
+<entry key="db.connectionType">customurl</entry>
+<entry key="db.credentialsSource">request</entry>
+<entry key="db.customURL">jdbc:oracle:thin:@//localhost:1521/freepdb1</entry>
+<entry key="db.username">HR</entry>
+<entry key="restEnabledSql.active">true</entry>
+</properties>

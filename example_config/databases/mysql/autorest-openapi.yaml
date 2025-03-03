@@ -1,0 +1,134 @@
+openapi: 3.0.3
+info:
+  title: AutoREST MySQL
+  description: |-
+    This is a set of services for working with database objects in MySQL.
+  version: 0.0.1
+externalDocs:
+  description: Find out more about Oracle REST Data Services
+  url: https://oracle.com/rest
+paths:
+  /actors/:
+    x-autorest:
+      identifier: actor
+      type: table
+    get:
+      summary: Get Actors
+      description: Retrieve the records from the Actors table in the sakila database.
+      operationId: getActors
+      parameters:
+        - in: query
+          name: offset
+          schema:
+            type: integer
+          description: The number of items to skip before starting to collect the result set
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: The numbers of items to return        
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid status value
+    post:
+      summary: Create Actor
+      description: Create an Actor record on the Actors table in the sakila database.
+      operationId: createActor
+      responses:
+        '201':
+          description: successful operation
+        '400':
+          description: Bad request
+      x-autorest:
+        identifier: actor
+        type: table
+  /actors/{actor_id}:
+    x-autorest:
+      identifier: actor
+      type: table
+    parameters:
+      - in: path
+        name: actor_id
+        required: true
+        schema:
+          type: integer
+        description: The identifier of the Actor record
+    get:
+      summary: Get Actor
+      description: Retrieve the specified record from the Actors table in the sakila database.
+      operationId: getActor
+      responses:
+        '200':
+          description: successful operation
+        '404':
+          description: Record not found
+    delete:
+      summary: Delete Actor
+      description: Delete an Actor record from the Actors table in the sakila database.
+      operationId: deleteActor
+      responses:
+        '204':
+          description: successful operation
+        '404':
+          description: Record not found
+    put:
+      summary: Update Actor
+      description: Update the specified record from the Actors table in the sakila database.
+      operationId: updateActor
+      responses:
+        '200':
+          description: successful operation
+        '404':
+          description: Record not found
+
+  /sales_by_film_category/:
+    x-autorest:
+      identifier: sales_by_film_category
+      type: view
+    get:
+      summary: Get Sales Summary By Film Category
+      description: Retrieve the records from the sales_by_film_category view in the sakila database.
+      operationId: sales_by_film_category
+      parameters:
+        - in: query
+          name: offset
+          schema:
+            type: integer
+          description: The number of items to skip before starting to collect the result set
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: The numbers of items to return        
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid status value
+
+components:
+  schemas:
+    Actor:
+      type: object
+      properties:
+        actor_id:
+          type: integer
+          format: int64
+          example: 10
+        first_name:
+          type: string
+          description: First Name
+          example: MAX
+        last_name:
+          type: string
+          description: Last Name
+          example: POWER
+    Actors:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Actor'
