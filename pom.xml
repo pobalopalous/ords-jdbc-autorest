@@ -48,6 +48,19 @@
 	    <artifactId>ojdbc11</artifactId>
 	    <version>23.6.0.24.10</version>
 	</dependency>
+        <!-- https://mvnrepository.com/artifact/com.ibm.db2/jcc -->
+        <dependency>
+            <groupId>com.ibm.db2</groupId>
+            <artifactId>jcc</artifactId>
+            <version>12.1.0.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>12.8.1.jre11</version>
+        </dependency>
+
 	<!-- 
 	  This artifact is not availble in a public Maven repository and will have to put in your local maven repository from the ORDS distribution.
 	  See the README.md for instructions.
@@ -113,6 +126,28 @@
   </dependencies>
 
   <build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>3.8.1</version>
+            <executions>
+                <execution>
+                    <id>copy-dependencies</id>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>copy-dependencies</goal>
+                    </goals>
+                    <configuration>
+                        <outputDirectory>${project.build.directory}</outputDirectory> <!-- copy dependency jars into same target dir -->
+                        <includeScope>runtime</includeScope> <!-- Only runtime dependencies -->
+                        <includeGroupIds>com.mysql,org.postgresql,com.ibm.db2,com.microsoft.sqlserver,com.fasterxml.jackson.dataformat,com.fasterxml.jackson.datatype,org.apache.commons,org.yaml,io.swagger.core.v3,io.swagger.parser.v3</includeGroupIds>
+                        <excludeArtifactIds>commons-text,jackson-datatype-guava,jackson-datatype-joda,swagger-annotations,swagger-parser-safe-url-resolver,swagger-parser-v2-converter</excludeArtifactIds>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
