@@ -142,6 +142,8 @@ db.username             sammy                                                Poo
 restEnabledSql.active   true                                                 Pool       
 
 ```
+![ORDS pool configuration and jars](images/ords-autorest-pool-and-jars.png)
+
 This configuration directory does not have a default pool but has the following 5 pools:
 - db2 : DB/2
 - mssql : SQL Server
@@ -150,7 +152,7 @@ This configuration directory does not have a default pool but has the following 
 - postgres : PostgreSQL
 
 Note that in none of these pools is the db.username an ORDS Runtime User such as ORDS_PUBLIC_USER. ORDS is not installed in these databases.
-Adjust the pools to suit your needs.
+Adjust the pools to suit your needs. You may or may not have the same database users in your database.
 
 ## API Document
 Each pool has a autorest-openapi.yaml document which describes what the AutoRESTJDBCServlet will make available. These are OpenAPI V3 documents which use an extension structure to describe the database object to be made available over REST.
@@ -163,6 +165,8 @@ Each pool has a autorest-openapi.yaml document which describes what the AutoREST
 ```
 The OpenAPI V3 `path` and `operation` specify what service is available and the `x-autorest` extension specify the object. Note that not all databases have a schema concept so not all documents will specify an `owner` for the object.
 
+![ORDS AutoREST declarative API document](images/ords-autorest-declarative-api.png)
+
 
 # Run It
 With the `example_config` as your current working directory, and the plugin jars in the `lib/ext` directory, just run ORDS in standalone mode:
@@ -170,3 +174,17 @@ With the `example_config` as your current working directory, and the plugin jars
 cd example_config
 $ORDS_HOME/bin/ords serve
 ```
+![ORDS serve](images/ords-autorest-ords-serve.png)
+
+Then use basic authentication, using username and password for a database user, for a REST request.
+```
+    curl -u test_user:TestPass123
+      http://localhost:8080/ords/mysql/autorest/actors/
+```
+
+Want to make another table or view accessible over REST? Just update the corresponding API document with additional path, operations and x-autorest metadata. The API document is cached and reloaded every 5 minutes. See [OpenAPICache.java](./src/main/java/blog/peterobrien/jdbc/autorest/OpenAPICache.java).
+
+Note that whatever path is added, the prefix is `/ords/${database pool alias}/autorest/` for the client request.
+
+# Conclusion
+This project creates an ORDS plugin which you can use to provide REST services based on the database tables and views. The services require basic authentication so that a JDBC connection can be created with the credentuals provided in the request. The ORDS plugin framework makes this custom approach possible.
